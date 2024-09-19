@@ -101,52 +101,6 @@ def create_products():
 #
 # PLACE YOUR CODE TO LIST ALL PRODUCTS HERE
 #
-@app.route("/products", methods=["GET"])
-def list_products():
-    """Returns a list of Products"""
-    app.logger.info("Request to list Products...")
-    products = Product.all()
-    results = [product.serialize() for product in products]
-    app.logger.info("[%s] Products returned", len(results))
-    return results, status.HTTP_200_OK
-
-@app.route("/products", methods=["GET"])
-def list_products():
-    """Returns a list of Products"""
-    app.logger.info("Request to list Products...")
-    products = []
-    name = request.args.get("name")
-    if name:
-        app.logger.info("Find by name: %s", name)
-        products = Product.find_by_name(name)
-    else:
-        app.logger.info("Find all")
-        products = Product.all()
-    results = [product.serialize() for product in products]
-    app.logger.info("[%s] Products returned", len(results))
-    return results, status.HTTP_200_OK
-
-@app.route("/products", methods=["GET"])
-def list_products():
-    """Returns a list of Products"""
-    app.logger.info("Request to list Products...")
-    products = []
-    name = request.args.get("name")
-    category = request.args.get("category")
-    if name:
-        app.logger.info("Find by name: %s", name)
-        products = Product.find_by_name(name)
-    elif category:
-        app.logger.info("Find by category: %s", category)
-        # create enum from string
-        category_value = getattr(Category, category.upper())
-        products = Product.find_by_category(category_value)
-    else:
-        app.logger.info("Find all")
-        products = Product.all()
-    results = [product.serialize() for product in products]
-    app.logger.info("[%s] Products returned", len(results))
-    return results, status.HTTP_200_OK
 
 @app.route("/products", methods=["GET"])
 def list_products():
@@ -183,6 +137,9 @@ def list_products():
 ######################################################################
 # READ A PRODUCT
 ######################################################################
+#
+# PLACE YOUR CODE HERE TO READ A PRODUCT
+#
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_products(product_id):
     """
@@ -198,15 +155,7 @@ def get_products(product_id):
 
     app.logger.info("Returning product: %s", product.name)
     return product.serialize(), status.HTTP_200_OK
-def test_get_product_not_found(self):
-        """It should not Get a Product thats not found"""
-        response = self.client.get(f"{BASE_URL}/0")
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        data = response.get_json()
-        self.assertIn("was not found", data["message"])
-#
-# PLACE YOUR CODE HERE TO READ A PRODUCT
-#
+
 
 ######################################################################
 # U P D A T E   A   P R O D U C T
